@@ -16,5 +16,9 @@ General Sandbox Features:
 - Set Model (not done yet)
 - Set Pitch (not done yet)
 
+To Do:
+- Assign a WeaponID to the Physics Gun.
+- Making a spawnlist that looks for props.ini and make list of things existed in the file.
+
 Main server:
 dtf2server.ddns .net:27015 - DanctTF2 - 24/7 Sandbox
