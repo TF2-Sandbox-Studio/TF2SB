@@ -48,17 +48,17 @@
 new Handle:g_hSdkEquipWearable;
 new g_CollisionOffset;
 
-new int:g_hWearableOwner[2049];
-new int:g_iTiedEntity[2049];
+new g_hWearableOwner[2049];
+new g_iTiedEntity[2049];
 new bool:g_bIsToolgun[2049];
 new String:g_sCurrentColor[MAXPLAYERS + 1][32];
 new RenderFx:g_fxEffectTool[MAXPLAYERS + 1];
-new int:g_iCurrentColor[MAXPLAYERS + 1][3];
+new g_iCurrentColor[MAXPLAYERS + 1][3];
 new LastUsed[MAXPLAYERS + 1];
 
-new int:g_iTool[MAXPLAYERS + 1];
-new int:g_iColorTool[MAXPLAYERS + 1];
-new int:g_iEffectTool[MAXPLAYERS + 1];
+new g_iTool[MAXPLAYERS + 1];
+new g_iColorTool[MAXPLAYERS + 1];
+new g_iEffectTool[MAXPLAYERS + 1];
 new bool:g_bPlayerPressedReload[MAXPLAYERS + 1];
 new bool:g_bAttackWasMouse2[MAXPLAYERS + 1];
 new bool:g_bAttackWasMouse3[MAXPLAYERS + 1];
@@ -99,7 +99,7 @@ new Float:g_fDelRangePoint3[MAXPLAYERS][3];
 new String:g_szDelRangeStatus[MAXPLAYERS][8];
 new bool:g_szDelRangeCancel[MAXPLAYERS] =  { false, ... };
 
-new int:g_RememberGodmode[MAXPLAYERS];
+new g_RememberGodmode[MAXPLAYERS];
 
 new ColorBlue[4] =  {
 	50, 
@@ -937,7 +937,7 @@ public OnClientDisconnect(Client) {
 }
 
 public OnClientConnected(Client) {
-	g_RememberGodmode[Client] = 1.0;
+	g_RememberGodmode[Client] = 1;
 }
 
 public Action:Timer_Disconnect(Handle:Timer, Handle:hPack) {
@@ -2285,13 +2285,13 @@ public Action:Command_ChangeGodMode(Client, Args) {
 	if (GetEntProp(Client, Prop_Data, "m_takedamage") == 0)
 	{
 		Build_PrintToChat(Client, "God Mode OFF");
-		g_RememberGodmode[Client] = 0.0;
+		g_RememberGodmode[Client] = 0;
 		SetEntProp(Client, Prop_Data, "m_takedamage", 2, 1);
 	}
 	else
 	{
 		Build_PrintToChat(Client, "God Mode ON");
-		g_RememberGodmode[Client] = 1.0;
+		g_RememberGodmode[Client] = 1;
 		SetEntProp(Client, Prop_Data, "m_takedamage", 0, 1);
 	}
 	
@@ -2496,7 +2496,10 @@ public EntityInfo(Client, iTarget) {
 	}
 	
 	new String:szModel[128], String:szOwner[32], String:szPropString[256];
-	new String:szGetThoseString = GetEntPropString(iTarget, Prop_Data, "m_iName", szPropString, sizeof(szPropString));
+	
+	new String:szGetThoseString[512];
+	GetEntPropString(iTarget, Prop_Data, "m_iName", szPropString, sizeof(szPropString));
+	
 	new iOwner = Build_ReturnEntityOwner(iTarget);
 	GetEntPropString(iTarget, Prop_Data, "m_ModelName", szModel, sizeof(szModel));
 	if (iOwner != -1)
@@ -3484,7 +3487,7 @@ public CondMenu(Handle:menu, MenuAction:action, param1, param2)
 		if (StrEqual(item, "fly"))
 		{
 			if (!Build_AllowToUse(param1) || Build_IsBlacklisted(param1) || !Build_IsClientValid(param1, param1, true) || !Build_AllowFly(param1))
-				return Plugin_Handled;
+				return 0;
 			
 			if (GetEntityMoveType(param1) != MOVETYPE_FLY)
 			{
@@ -4237,7 +4240,7 @@ grab(client) {
 	
 	targetentity = GetClientAimEntity3(client, distancetoentity, resultpos);
 	
-	if (targetentity != -1) {
+	if (targetentity != -1 && !IsValidClient(targetentity)) {
 		
 		new PropTypeCheck:entityType = entityTypeCheck(targetentity);
 		
@@ -4669,7 +4672,7 @@ bool:clientcangrab(client) {
 		
 		
 	}
-	
+	return false;
 }
 
 bool:clientisgrabbingvalidobject(client) {
@@ -4761,7 +4764,7 @@ public Action:ClientRemoveAll(client, args)
 		return Plugin_Handled;
 	}
 	
-	decl String:arg[65], String:cmd[192];
+	decl String:arg[65], cmd[192];
 	GetCmdArg(1, arg, sizeof(arg));
 	
 	decl String:target_name[MAX_TARGET_LENGTH];
@@ -4990,7 +4993,7 @@ public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &boo
 {
 	if (IsValidEntity(weapon) && g_bIsToolgun[weapon])
 	{
-		new Float:flStartPos[3], flEyeAng[3], flHitPos[3];
+		new Float:flStartPos[3], Float:flEyeAng[3], Float:flHitPos[3];
 		GetClientEyePosition(client, flStartPos);
 		GetClientEyeAngles(client, flEyeAng);
 		
@@ -5258,7 +5261,7 @@ public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &boo
 						{
 							g_sCurrentColor[client] = "Blue";
 							g_iCurrentColor[client][0] = 0;
-							g_iCurrentColor[client][1] = 0.0;
+							g_iCurrentColor[client][1] = 0;
 							g_iCurrentColor[client][2] = 255;
 						}
 						case 6:
@@ -5413,6 +5416,7 @@ public Action:TF2_CalcIsAttackCritical(client, weapon, String:weaponname[], &boo
 		
 		SetEntProp(weapon, Prop_Send, "m_iClip1", -1);
 	}
+	return Plugin_Continue;
 }
 
 public bool:TraceRayDontHitEntity(entity, mask, any:data)
@@ -5530,3 +5534,11 @@ public Action:Command_TF2SBHideHud(client, args)
 	}
 	return Plugin_Handled;
 } 
+
+stock bool:IsValidClient(client) 
+{ 
+    if(client <= 0 ) return false; 
+    if(client > MaxClients) return false; 
+    if(!IsClientConnected(client)) return false; 
+    return IsClientInGame(client); 
+}
