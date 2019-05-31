@@ -1,28 +1,16 @@
-# TF2: Sandbox, the gamemode that releashes player's creative head.
+# Team Fortress 2 Sandbox
+[![Build status](https://ci.appveyor.com/api/projects/status/9a3so69rx377o652?svg=true)](https://ci.appveyor.com/project/LeadKiller/tf2sb/build/artifacts)
 
-This is a fork mod of the original BuildMod for HL2DM (https://sourceforge.net/projects/smbuildmod)
+### Information
+In Team Fortress 2 Sandbox, players can release their creativity and build things they love. You can roleplay, build bases, make a machinima, start a resturant, build a town, take over a planet in space. The only limit is your imagination!
 
-TF2: Sandbox is a open-source gamemode for Team Fortress 2 that introduces PhysGun, ability to build.
+### Sandbox Features
+- Spawnmenu - The spawnmenu allows you to spawn props. It features categories such as Construction, Comic, Items, Weapons, and HL2.
+- Move/Rotate/Scale Props - Use +copy, +move, or even sm_skin to customize your props.
+- Physics Gun - The Garry's Mod classic returns here, with a easy way of moving around props, you'll never have issues.
+- Tool Gun - Explode everything, customize a prop, or disallow collisions on a prop.
+- Noclip - Fly through walls to get where you need to.
+- Player Menu - Add conditions or pose yourself.
 
-In this game, players can releash their creative head and build things they love, you can roleplay, can build, can do many things like building a parkour, building a house, a restaurant and many more.
-
-General Sandbox Features:
-- Spawn Props - Spawn any props in order to build something.
-- Physics Gun - This gun lets you to pick up any props, just like in Garry's Mod.
-- Tool Gun - Allow you to customize the prop.
-- Noclip - Let you to fly around the map (!fly)
-- Addcond - Gives you things in addcond, like full crits.
-- Set Health (not done yet)
-- Set Speed (not done yet)
-- Set Model (not done yet)
-- Set Pitch (not done yet)
-
-To Do:
-- Assign a WeaponID to the Physics Gun.
-- Tool Gun
-- MSTR Sandbox Messages
-
-Main server:
-http://steamcommunity.com/groups/TF2Sandbox
-
-Pull requests are welcome!
+### Social Media
+You can find links to our Discord, TF2 Server, and Steam Group [here](https://sandbox.moddage.site/).

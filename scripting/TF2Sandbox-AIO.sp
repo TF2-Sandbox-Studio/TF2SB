@@ -33,6 +33,7 @@
 #include <tf2items>
 #include <stocklib>
 #include <matrixmath>
+#include <updater>
 
 //#pragma newdecls required
 
@@ -40,6 +41,8 @@
 #define SND_TOOLGUN_SHOOT	"weapons/airboat/airboat_gun_lastshot1.wav"
 #define SND_TOOLGUN_SHOOT2	"weapons/airboat/airboat_gun_lastshot2.wav"
 #define SND_TOOLGUN_SELECT	"buttons/button15.wav"
+
+#define UPDATE_URL    "https://sandbox.moddage.site/plugin/updater.txt"
 
 // Toolgun
 #define EF_BONEMERGE			(1 << 0)
@@ -292,10 +295,10 @@ new g_iPhys;
 
 public Plugin:myinfo =  {
 	name = "TF2 Sandbox All In One Module", 
-	author = "Danct12, DaRkWoRlD, FlaminSarge, javalia, greenteaf0718, hjkwe654", 
+	author = "LeadKiller, Danct12, DaRkWoRlD, FlaminSarge, javalia, greenteaf0718, hjkwe654", 
 	description = "Everything in one module, isn't that cool?", 
 	version = BUILDMOD_VER, 
-	url = "http://dtf2server.ddns.net"
+	url = "https://sandbox.moddage.site/"
 };
 
 public OnPluginStart() {
@@ -805,6 +808,19 @@ public OnPluginStart() {
 	RegAdminCmd("sm_tf2sb", Command_TF2SBCred, 0);
 	RegAdminCmd("hidehudtf2sb", Command_TF2SBHideHud, 0);
 	
+	// updater
+    if (LibraryExists("updater"))
+    {
+        Updater_AddPlugin(UPDATE_URL);
+    }
+}
+
+public OnLibraryAdded(const String:name[])
+{
+	if (StrEqual(name, "updater"))
+	{
+		Updater_AddPlugin(UPDATE_URL);
+	}
 }
 
 public Action:Command_TF2SBCred(client, args)

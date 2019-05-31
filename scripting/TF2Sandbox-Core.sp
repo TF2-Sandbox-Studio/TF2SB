@@ -29,7 +29,7 @@
 
 #define DEBUG 
 
-#define UPDATE_URL    ""
+#define UPDATE_URL    "https://sandbox.moddage.site/plugin/updater.txt"
 
 #if BUILDMODAPI_VER < 3
 #error "build.inc is outdated. please update before compiling"
@@ -68,10 +68,10 @@ new g_iCvarServerLimit;
 
 public Plugin:myinfo =  {
 	name = "TF2 Sandbox Core", 
-	author = "Danct12, DaRkWoRlD, greenteaf0718, hjkwe654", 
+	author = "LeadKiller, Danct12, DaRkWoRlD, greenteaf0718, hjkwe654", 
 	description = "TF2SB Controller Core", 
 	version = BUILDMOD_VER, 
-	url = "http://dtf2server.ddns.net"
+	url = "https://sandbox.moddage.site/"
 };
 
 static const String:tips[10][] =  {
@@ -112,6 +112,12 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max) 
 	#if defined _SteamWorks_Included
 	MarkNativeAsOptional("SteamWorks_SetGameDescription");
 	#endif
+	
+	// updater
+    if (LibraryExists("updater"))
+    {
+        Updater_AddPlugin(UPDATE_URL);
+    }
 	
 	return APLRes_Success;
 }
