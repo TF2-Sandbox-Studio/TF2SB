@@ -1,6 +1,6 @@
 # Team Fortress 2 Sandbox
-[![Build status](https://ci.appveyor.com/api/projects/status/9a3so69rx377o652?svg=true)](https://ci.appveyor.com/project/LeadKiller/tf2sb/build/artifacts)
-
+[![Build status](https://ci.appveyor.com/api/projects/status/9a3so69rx377o652?svg=true)](https://ci.appveyor.com/project/LeadKiller/tf2sb/build/artifacts)  
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ### Information
 In Team Fortress 2 Sandbox, players can release their creativity and build things they love. You can roleplay, build bases, make a machinima, start a resturant, build a town, take over a planet in space. The only limit is your imagination!
 
