@@ -25,12 +25,11 @@
 #undef REQUIRE_PLUGIN
 #include <updater>
 
-#include <steamtools>
 #include <steamworks>
 
 #define DEBUG 
 
-#define UPDATE_URL    ""
+#define UPDATE_URL    "https://sandbox.moddage.site/plugin/updater.txt"
 
 #if BUILDMODAPI_VER < 3
 #error "build.inc is outdated. please update before compiling"
@@ -38,7 +37,6 @@
 
 #define MSGTAG "\x01[\x04TF2SB\x01]"
 
-new bool:steamtools = false;
 new bool:steamworks = false;
 
 new bool:g_bClientLang[MAXPLAYERS];
@@ -70,10 +68,10 @@ new g_iCvarServerLimit;
 
 public Plugin:myinfo =  {
 	name = "TF2 Sandbox Core", 
-	author = "Danct12, DaRkWoRlD, greenteaf0718, hjkwe654", 
+	author = "LeadKiller, Danct12, DaRkWoRlD, greenteaf0718, hjkwe654", 
 	description = "TF2SB Controller Core", 
 	version = BUILDMOD_VER, 
-	url = "http://dtf2server.ddns.net"
+	url = "https://sandbox.moddage.site/"
 };
 
 static const String:tips[10][] =  {
@@ -115,6 +113,12 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max) 
 	MarkNativeAsOptional("SteamWorks_SetGameDescription");
 	#endif
 	
+	// updater
+    if (LibraryExists("updater"))
+    {
+        Updater_AddPlugin(UPDATE_URL);
+    }
+	
 	return APLRes_Success;
 }
 
@@ -125,11 +129,6 @@ public OnLibraryAdded(const String:name[])
 		Updater_AddPlugin(UPDATE_URL);
 	}
 	
-	if (!strcmp(name, "SteamTools", false))
-	{
-		steamtools = true;
-	}
-	
 	if (!strcmp(name, "SteamWorks", false))
 	{
 		steamworks = true;
@@ -138,10 +137,6 @@ public OnLibraryAdded(const String:name[])
 
 public OnLibraryRemoved(const String:name[])
 {
-	if (!strcmp(name, "SteamTools", false))
-	{
-		steamtools = false;
-	}
 	
 	if (!strcmp(name, "SteamWorks", false))
 	{
@@ -161,14 +156,6 @@ public OnConfigsExecuted() {
 		if (steamworks)
 		{
 			SteamWorks_SetGameDescription(sBuffer);
-			steamtools = false;
-		}
-		#endif
-		#if defined _steamtools_included
-		if (steamtools)
-		{
-			Steam_SetGameDescription(sBuffer);
-			steamworks = false;
 		}
 		#endif
 	}
@@ -209,8 +196,6 @@ public OnPluginStart() {
 	HookConVarChange(g_hCvarServerLimit, Hook_CvarServerLimit);
 	
 	g_hCookieClientLang = RegClientCookie("cookie_BuildModClientLang", "TF2SB Client Language.", CookieAccess_Private);
-	
-	steamtools = LibraryExists("SteamTools");
 	
 	steamworks = LibraryExists("SteamWorks");
 	
